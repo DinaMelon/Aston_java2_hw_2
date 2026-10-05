@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <property name="hibernate.connection.driver_class">
+            org.postgresql.Driver
+        </property>
+
+        <!--
+            Testcontainers пробрасывает PostgreSQL на порт 5433 компьютера
+        -->
+        <property name="hibernate.connection.url">
+            jdbc:postgresql://localhost:5433/testdb
+        </property>
+
+        <property name="hibernate.connection.username">
+            test
+        </property>
+
+        <property name="hibernate.connection.password">
+            test
+        </property>
+
+        <property name="hibernate.hbm2ddl.auto">
+            create-drop
+        </property>
+
+        <property name="hibernate.show_sql">
+            true
+        </property>
+
+        <property name="hibernate.format_sql">
+            true
+        </property>
+
+        <mapping class="db.crud.model.User"/>
+
+    </session-factory>
+
+</hibernate-configuration>
