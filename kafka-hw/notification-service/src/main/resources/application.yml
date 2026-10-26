@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # ErrorHandlingDeserializer: "битое" сообщение не зацикливает consumer, а пропускается
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        # тип берём из конфигурации, а не из заголовков: у user-service свой класс UserEvent
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: db.notification.dto.UserEvent
+        spring.json.trusted.packages: db.notification.dto
+
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: ${MAIL_SMTP_AUTH:false}
+      mail.smtp.starttls.enable: ${MAIL_SMTP_STARTTLS:false}
+
+app:
+  kafka:
+    topic: ${USER_EVENTS_TOPIC:user-events}
+  mail:
+    from: ${MAIL_FROM:no-reply@example.com}
+  # подставляется в текст письма о создании аккаунта
+  site-name: ${SITE_NAME:ваш сайт}
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: INFO
