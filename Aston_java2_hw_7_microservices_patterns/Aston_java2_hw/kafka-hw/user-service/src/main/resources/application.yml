@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: user-service
+  config:
+    # Все остальные настройки (БД, Kafka, порт, springdoc) — во внешней конфигурации:
+    # config-server/src/main/resources/config-repo/user-service.yml
+    import: "configserver:${CONFIG_SERVER_URL:http://localhost:8888}"

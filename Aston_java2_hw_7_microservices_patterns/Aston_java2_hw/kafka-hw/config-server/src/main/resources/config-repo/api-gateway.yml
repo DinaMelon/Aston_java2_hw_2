@@ -1,0 +1,30 @@
+# Маршруты API Gateway. lb://<имя> — адрес сервиса берётся из Eureka и балансируется между экземплярами.
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                - Path=/api/users/**,/api
+              filters:
+                # Circuit breaker: если user-service падает/тормозит — запрос уходит на /fallback/user-service
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceCircuitBreaker
+                    fallbackUri: forward:/fallback/user-service
+
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/api/notifications/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: notificationServiceCircuitBreaker
+                    fallbackUri: forward:/fallback/notification-service

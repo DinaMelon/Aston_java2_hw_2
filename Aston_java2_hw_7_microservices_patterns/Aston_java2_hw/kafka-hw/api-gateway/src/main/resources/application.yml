@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    # маршруты и порт приходят из config-server (config-repo/api-gateway.yml)
+    import: "configserver:${CONFIG_SERVER_URL:http://localhost:8888}"

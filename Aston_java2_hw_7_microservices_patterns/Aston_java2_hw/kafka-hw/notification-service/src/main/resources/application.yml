@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: notification-service
+  config:
+    # Все остальные настройки (Kafka, почта, порт, springdoc) — во внешней конфигурации:
+    # config-server/src/main/resources/config-repo/notification-service.yml
+    import: "configserver:${CONFIG_SERVER_URL:http://localhost:8888}"

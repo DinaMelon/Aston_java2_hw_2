@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          # <имя-сервиса>.yml отдаётся сервису с таким spring.application.name, application.yml — всем сразу
+          search-locations: classpath:/config-repo
+
+server:
+  port: 8888

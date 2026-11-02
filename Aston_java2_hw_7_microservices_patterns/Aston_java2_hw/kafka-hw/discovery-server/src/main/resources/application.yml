@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: discovery-server
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    # сам реестр не регистрируется в себе и не тянет чужой реестр
+    register-with-eureka: false
+    fetch-registry: false
